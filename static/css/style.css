@@ -1,0 +1,25 @@
+body { background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
+
+.hero-section {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 50%, #084298 100%);
+  min-height: 220px;
+}
+
+.course-card { transition: transform .2s, box-shadow .2s; }
+.course-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,.12) !important; }
+
+.lesson-content {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #0d6efd;
+}
+
+.card-header { border-radius: 8px 8px 0 0 !important; }
+.card { border-radius: 12px !important; }
+.btn { border-radius: 8px; }
+
+.navbar { padding: .8rem 0; }
+code { background: #e9ecef; padding: 2px 6px; border-radius: 4px; color: #d63384; }

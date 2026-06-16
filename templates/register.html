@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Реєстрація — EduLearn{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow border-0">
+      <div class="card-body p-4">
+        <h3 class="fw-bold text-center mb-4"><i class="bi bi-person-plus text-primary me-2"></i>Реєстрація</h3>
+        <form method="POST">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Логін</label>
+            <input type="text" name="username" class="form-control form-control-lg" placeholder="Введіть логін" required>
+          </div>
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Пароль</label>
+            <input type="password" name="password" class="form-control form-control-lg" placeholder="Введіть пароль" required>
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg fw-semibold">Зареєструватись</button>
+          </div>
+        </form>
+        <hr>
+        <p class="text-center mb-0">Вже є акаунт? <a href="{{ url_for('login') }}">Увійти</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

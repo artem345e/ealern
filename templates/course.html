@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}{{ course.title }} — EduLearn{% endblock %}
+{% block content %}
+
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Головна</a></li>
+    <li class="breadcrumb-item active">{{ course.title }}</li>
+  </ol>
+</nav>
+
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-body p-4">
+        <h1 class="fw-bold mb-2">{{ course.title }}</h1>
+        <p class="text-muted mb-3">
+          <i class="bi bi-person me-1"></i>{{ course.author_name }} &nbsp;|&nbsp;
+          <i class="bi bi-book me-1"></i>{{ lessons|length }} уроків
+        </p>
+        <p class="fs-5">{{ course.description or 'Опис відсутній' }}</p>
+
+        {% if user and user.role == 'student' %}
+          {% if enrolled %}
+          <div class="alert alert-success"><i class="bi bi-check-circle me-2"></i>Ви записані на цей курс</div>
+          {% else %}
+          <a href="{{ url_for('enroll', cid=course.id) }}" class="btn btn-primary btn-lg">
+            <i class="bi bi-plus-circle me-1"></i>Записатись на курс
+          </a>
+          {% endif %}
+        {% elif not user %}
+        <a href="{{ url_for('login') }}" class="btn btn-outline-primary">
+          <i class="bi bi-box-arrow-in-right me-1"></i>Увійдіть, щоб записатись
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-primary text-white fw-bold">
+        <i class="bi bi-list-ul me-2"></i>Уроки курсу
+      </div>
+      <div class="list-group list-group-flush">
+        {% if lessons %}
+          {% for les in lessons %}
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <span class="badge bg-primary me-2">{{ les.order_num }}</span>
+              <span class="fw-semibold">{{ les.title }}</span>
+            </div>
+            {% if enrolled or (user and user.role == 'teacher') %}
+            <a href="{{ url_for('lesson', lid=les.id) }}" class="btn btn-sm btn-outline-primary">
+              <i class="bi bi-play-circle"></i>
+            </a>
+            {% else %}
+            <i class="bi bi-lock text-muted"></i>
+            {% endif %}
+          </div>
+          {% endfor %}
+        {% else %}
+        <div class="list-group-item text-muted text-center py-4">
+          <i class="bi bi-inbox"></i> Уроків ще немає
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

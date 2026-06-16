@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}{{ lesson.title }} — EduLearn{% endblock %}
+{% block content %}
+
+<nav aria-label="breadcrumb" class="mb-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Головна</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('course', cid=course.id) }}">{{ course.title }}</a></li>
+    <li class="breadcrumb-item active">{{ lesson.title }}</li>
+  </ol>
+</nav>
+
+<div class="row">
+  <div class="col-lg-8">
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-primary text-white">
+        <h4 class="mb-0 fw-bold"><i class="bi bi-play-circle me-2"></i>{{ lesson.title }}</h4>
+      </div>
+      <div class="card-body p-4">
+        <div class="lesson-content">
+          {{ lesson.content | replace('\n', '<br>') | safe }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="d-flex justify-content-between">
+      {% set prev = None %}{% set next = None %}{% set found = False %}
+      {% for l in lessons %}
+        {% if found and next is none %}{% set next = l %}{% endif %}
+        {% if l.id == lesson.id %}{% set found = True %}{% endif %}
+        {% if not found %}{% set prev = l %}{% endif %}
+      {% endfor %}
+      {% if prev %}
+      <a href="{{ url_for('lesson', lid=prev.id) }}" class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left me-1"></i>{{ prev.title }}
+      </a>
+      {% else %}<div></div>{% endif %}
+      {% if next %}
+      <a href="{{ url_for('lesson', lid=next.id) }}" class="btn btn-primary">
+        {{ next.title }}<i class="bi bi-arrow-right ms-1"></i>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-dark text-white fw-bold">
+        <i class="bi bi-list-ul me-2"></i>Всі уроки
+      </div>
+      <div class="list-group list-group-flush">
+        {% for l in lessons %}
+        <a href="{{ url_for('lesson', lid=l.id) }}"
+           class="list-group-item list-group-item-action d-flex align-items-center {% if l.id == lesson.id %}active{% endif %}">
+          <span class="badge {% if l.id == lesson.id %}bg-white text-primary{% else %}bg-primary{% endif %} me-2">{{ l.order_num }}</span>
+          {{ l.title }}
+          {% if l.id == lesson.id %}<i class="bi bi-play-fill ms-auto"></i>{% endif %}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
